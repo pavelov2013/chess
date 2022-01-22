@@ -10,6 +10,7 @@
 #include <cstring>
 char* validation(const char *s,int sock, int bytes_read)
 {
+    
     char result[5];
     std::cout<<s;
     result[0]=s[0];
