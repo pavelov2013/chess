@@ -10,7 +10,7 @@
 #include <cstdio>
 #include <netdb.h> 
 
-#define host "192.168.88.252"
+#define host "192.168.88.251"
 #define port 7777
 
 char message[256] = "";
