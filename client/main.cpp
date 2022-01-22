@@ -41,6 +41,7 @@ int main()
     addr.sin_port = htons(port);
     if(connect(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0)
     {
+        
         printf("not connected");
         exit(2);
     }
