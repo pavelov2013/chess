@@ -7,7 +7,7 @@
 #include <unistd.h> 
 #include <cstdio> 
 
-char message[] = "A1,A3\n";
+char message[] = "A1,A3";
 char buf[sizeof(message)];
 
 int main()

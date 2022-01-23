@@ -6,30 +6,47 @@
 #include <stdlib.h>
 #include <unistd.h> 
 #include <iostream>
+#include <algorithm>
 #include <cstdio> 
 #include <cstring>
-char* validation(const char *s,int sock, int bytes_read)
+#include <cstdlib>
+
+//,int sock, int bytes_read
+void sendM(int sock, int bytes_read,const char *s)
 {
+    send(sock, s, bytes_read, 0);
+}
+bool validation(const char *s)
+{
+    int i=0;
+    int a[5];
+    int valid[5] = {2,1,0,2,1};
+    while ( s[i] ) 
+    {
+        if  ((isalpha(s[i])))
+            { 
+                std::cout << "is bukva " << s[i] << "\n";
+                a[i]=2;
+            }
+        else if ((isdigit(s[i])))
+            { 
+                std::cout << "is num " << s[i] << " \n";
+                a[i]=1;
+            }
+        else if (s[i]==',')
+        {
+            std::cout << "is zapatai "<< " \n";
+            a[i]=0;
+        }
+        else {}
+        i++; 
+    } 
+    if (!std::equal(a,a+5,valid)) return 1;
     
-    char result[5];
-    std::cout<<s;
-    result[0]=s[0];
-    result[1]=s[1];
-    result[2]=',';
-    result[3]=s[3];
-    result[4]=s[4];
-    //std::cout<<"fir coords"<<x0<<' '<<y0<<'\n';
-    //std::cout<<"sec coords"<<x1<<' '<<y1<<'\n';
-    // for(int i = 0; i < 4; i++)
-    //     {123
-    //         strcpy(result[i], str);
-    //     }
-    // char* result = x0+x;
-    // return x0;
-    //std::cout<<result;
-    //return result;
-    send(sock, result, bytes_read, 0);
-    bzero(result,sizeof(result));
+    
+
+    //bzero(result,sizeof(result));
+
 };
 
 
@@ -51,6 +68,8 @@ int main()
     addr.sin_family = AF_INET;
     addr.sin_port = htons(7777);
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    int opt = 1;
+    if (setsockopt (listener, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof (opt)) == -1) perror("setsockopt");
     if(bind(listener, (struct sockaddr *)&addr, sizeof(addr)) < 0)
     {
         perror("bind");
@@ -81,7 +100,8 @@ int main()
             }
             */
             if(bytes_read <= 0) break;
-            validation(buf,sock, bytes_read);
+            std::cout<<validation(buf)<<std::endl;
+            //if (validation(buf)) sendM(sock, buf, bytes_read);
             
         }
     
